@@ -1,0 +1,63 @@
+const candidato = {
+  nome: "Ana",
+  area: "Front-End",
+  habilidades: ["JavaScript", "GitHub", "Lógica de Programação", "Kanban"],
+  experienciaMeses: 3
+};
+
+ class Vaga {
+  constructor(empresa, cargo, requisitos, salario, modalidade) {
+  this.empresa = empresa;
+  this.cargo = cargo;
+  this.requisitos = requisitos; 
+  this.salario = salario;
+  this.modalidade = modalidade;
+  }
+ } 
+   const vaga1 = new Vaga ("TechStart", "Desenvolvedor Front-End Júnior", ["JavaScript", "GitHub", "Lógica de Programação"],  2800, "Remoto");
+   const vaga2 = new Vaga ("CodeLab", "Estágio Front-End", ["JavaScript", "Kanban", "GitHub"], 1800, "Híbrido");
+   const vaga3 = new Vaga ("WebSolutions", "Programador JavaScript Júnior", ["JavaScript", "Arrays", "Objetos", "Funções"], 3000, "Presencial");
+ 
+
+ 
+const vagas = [vaga1, vaga2, vaga3];
+ 
+
+const calcularCompatibilidade = (vaga) => {
+  const matches = vaga.requisitos.filter(req =>
+    candidato.habilidades.includes(req)
+  );
+  return (matches.length / vaga.requisitos.length) * 100;
+};
+
+const resultados = vagas.map(vaga => {
+  const compatibilidade = calcularCompatibilidade(vaga);
+  
+  const habilidadesFaltando = vaga.requisitos.filter(req =>
+    !candidato.habilidades.includes(req)
+  );
+
+  let sugestaoEstudos;
+  if (habilidadesFaltando.length > 0) {
+    sugestaoEstudos = `Para aumentar sua compatibilidade, considere estudar: ${habilidadesFaltando.join(', ')}.`;
+  } else {
+    sugestaoEstudos = "Você atende a todos os requisitos!";
+  }
+
+  return {
+    vaga: vaga.cargo,
+    empresa: vaga.empresa,
+    compatibilidade: compatibilidade,
+    habilidadesFaltando: habilidadesFaltando,
+    sugestaoEstudos: sugestaoEstudos
+  };
+});
+
+
+  for (const resultado of resultados) {
+  console.log(`Vaga: ${resultado.vaga}`);
+  console.log(`Empresa: ${resultado.empresa}`);
+  console.log(`Compatibilidade: ${resultado.compatibilidade}%`);
+  console.log(`Sugestão: ${resultado.sugestaoEstudos}`);
+  console.log("----------------------------");
+}
